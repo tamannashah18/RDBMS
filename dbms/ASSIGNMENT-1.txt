@@ -1,0 +1,243 @@
+Assignment-1
+
+Tamanna Shah
+roll no 180
+sem 4 div D
+
+Table 1: 
+Create following tables with necessary constraints
+1. Stud_master (rollno, sem, div, name, area, city, dob, bgp, gender)
+
+create table Stud_master (rollno integer primary key, sem integer, div char(1), name varchar(20), area varchar(20), city varchar(20), dob date, bgp varchar(2), gender varchar(10),constraint ck1 check(rollno>0),constraint ck2 check(city in('surat', 'baroda', 'navsari','valsad')))
+
+
+insert into Stud_master values(1,4,'A','Avery','citylight','surat','11-nov-2004','O+','female')
+insert into Stud_master values(2,4,'A','Khushi','vesu','surat','1-oct-2004','B+','male')
+insert into Stud_master values(12,4,'A','Khush','vesu','surat','1-oct-2004','B+','male')
+insert into Stud_master values(3,4,'A','Tamanna','udhna','surat','18-sep-2004','O+','female')
+
+insert into Stud_master values(6,4,'A','Pam','udhna','surat','1-sep-2004','O+','female','pam@gmail.com')
+
+2. Stud_marks(rollno, div, rdbms, micro, es,wd)
+
+create table Stud_marks(rollno integer primary key, div char(1), rdbms integer check(rdbms >=0 AND rdbms <=100), micro integer check(micro>=0 AND micro <=100), es integer check(es >=0 AND es <=100), wd integer check (wd>=0 AND wd<=100),constraint fk1 foreign key (rollno) references Stud_master on delete cascade)
+
+insert into Stud_marks values(1,'A',40,55,67,88)
+insert into Stud_marks values(2,'A',33,66,22,17)
+insert into Stud_marks values(12,'A',64,13,11,99)
+insert into Stud_marks values(3,'A',45,64,77,32)
+
+3. Activity (activity_id, act_name, act_date)
+
+create table Activity (activity_id int primary key, act_name varchar(10), act_date date)
+
+insert into Activity values(101,'Football','11-nov-2023')
+insert into Activity values(102,'Basketball','11-nov-2023')
+insert into Activity values(103,'Dance','11-nov-2023')
+insert into Activity values(104,'Music','11-nov-2023')
+
+4. Participant (rollno, div, activity_id, perf_grade)
+
+create table Participant (rollno int references Stud_master on delete cascade , div char(1), activity_id references Activity on delete cascade, perf_grade char(1),primary key(rollno,activity_id))
+
+insert into Participant values(1,'A',104,'A')
+insert into Participant values(1,'A',101,'A')
+insert into Participant values(2,'A',103,'C')
+insert into Participant values(2,'A',102,'D')
+insert into Participant values(3,'A',102,'B')
+insert into Participant values(12,'A',101,'D')
+
+5. Fees (payment_id, day_ofpay, rollno, div, amount)
+
+create table Fees (payment_id int, day_ofpay date, rollno int references Stud_master on delete cascade, div char(1) , amount int,primary key(payment_id,rollno ))
+
+insert into Fees values(12334,'12-jan-2024',1,'A',26000)
+insert into Fees values(12335,'11-jan-2024',2,'A',26000)
+insert into Fees values(12336,'8-jan-2024',3,'A',26000)
+insert into Fees values(12340,'1-feb-2024',12,'A',26000)
+
+6. Assignment (assigno, subject, assigndate, faculty)
+
+
+create table Assignment (assigno varchar(20) primary key, subject varchar(20), assigndate date, faculty varchar(20))
+
+insert into Assignment values('401-1','env','12-feb-2024','Dilber Mehta')
+insert into Assignment values('402-1','rdbms','1-feb-2024','Tejas Shah')
+insert into Assignment values('403-1','vb.net','10-feb-2024','Hiral B.')
+insert into Assignment values('401-2','env','22-feb-2024','Dilber Mehta')
+
+
+7. Assign_Subm (assigno, rollno, sub_status, subdate, grade)
+
+create table Assign_Subm (assigno varchar(8), rollno int, sub_status varchar(5), subdate date, grade char(1), constraint fk2 foreign key(assigno) references Assignment on delete cascade, constraint fk3 foreign key(rollno) references Stud_master on delete cascade, primary key(assigno ,rollno))
+
+
+insert into Assign_Subm values('401-2',1,'True','18-feb-2024','A')
+insert into Assign_Subm values('401-1',1,'True','12-feb-2024','A')
+insert into Assign_Subm values('402-1',1,'False','','F')
+insert into Assign_Subm values('403-1',1,'True','11-feb-2024','B')
+
+insert into Assign_Subm values('401-2',2,'False','','F')
+insert into Assign_Subm values('401-1',2,'True','12-feb-2024','A')
+insert into Assign_Subm values('402-1',2,'True','1-feb-2024','A')
+insert into Assign_Subm values('403-1',2,'True','11-feb-2024','A')
+
+insert into Assign_Subm values('401-2',3,'True','12-feb-2024','A')
+insert into Assign_Subm values('401-1',3,'True','12-feb-2024','A')
+insert into Assign_Subm values('402-1',3,'True','1-feb-2024','C')
+insert into Assign_Subm values('403-1',3,'True','11-feb-2024','A')
+
+insert into Assign_Subm values('401-2',12,'True','12-feb-2024','A')
+insert into Assign_Subm values('401-1',12,'True','12-feb-2024','D')
+insert into Assign_Subm values('402-1',12,'True','1-feb-2024','B')
+insert into Assign_Subm values('403-1',12,'True','11-feb-2024','A')
+
+8. Book (bookid, bookname, author, price)
+
+create table Book (bookid int primary key, bookname varchar(20), author varchar(20), price int)
+
+alter table Book add qnty int check(qnty>=1)
+
+
+insert into Book values(155,'working with Js','ABCD',250,2)
+insert into Book values(15,'working with VB.NET','ACD',280,55)
+insert into Book values(158,'HTML','A D',350,21)
+
+9. BookIssueReturn (bookid, rollno, status(issue/return), irdate)
+
+create table BookIssueReturn (bookid int, rollno int , status varchar(7), irdate date, constraint fk4 foreign key(rollno) references Stud_master on delete cascade , constraint fk5 foreign key(bookid) references Book on delete cascade, primary key(bookid ,rollno))
+
+
+insert into BookIssueReturn values(155,1,'issue','12-feb-2024')
+insert into BookIssueReturn  values(15,1,'return','1-feb-2024')
+insert into BookIssueReturn  values(158,2,'issue','10-feb-2024')
+insert into BookIssueReturn  values(15,12,'issue','1-jan-2024')
+insert into BookIssueReturn  values(158,12,'return','10-feb-2024')
+
+
+
+Solve the following queries
+1. Add 2-3 required columns with alter table command
+
+alter table Stud_master add email varchar(200)
+alter table Book add qnty int check(qnty>=1)
+
+2. Update the value in respective columns of the tables.
+
+update Stud_master set email='abc@gmail.com' where rollno=1
+update Stud_master set email='k222@gmail.com' where rollno=2
+update Stud_master set email='tam@gmail.com' where rollno=3
+update Stud_master set email='k333@gmail.com' where rollno=12
+
+
+3. List the students who lives in citylight area of surat city
+
+select rollno,name from Stud_master where city='surat'AND area='citylight'
+
+4. Display the detail of the female students whose name start with letter ‘p’
+
+select * from Stud_master where name like 'p%' OR name like'P%'
+
+
+5. List the students having more than 70 marks in rdbms and micro subject
+
+select s.rollno,s.name,s.sem,s.div,m.rdbms,m.micro from Stud_master s, Stud_marks m where s.rollno=m.rollno AND m.micro>70 AND m.rdbms>70
+
+6. Display the detail of the students who live in surat or whose blood group
+is a+ve
+
+select rollno,name,bgp from Stud_master where city='surat' OR  bgp='A+'
+
+7. Display the detail of the students who paid the fees after 1-jan-2016 and
+participated in the poster competition.
+
+select p.rollno,p.div,f.day_ofpay,a.act_name from Participant p, Fees f,Activity a where p.rollno=f.rollno AND a.activity_id = p.activity_id AND day_ofpay > '1-jan-2016' AND act_name='poster'
+
+8. List activity details of the activity to be held on 1st march 2016
+
+select * from Activity where act_date='1-mar-2016'A'
+
+9. List the students in ascending order of their names
+
+select * from Stud_master order by name asc
+
+10.List the b division students whose names are starting from ‘s’
+
+select * from Stud_master where div='B' AND name like 'S%'
+
+11.List the average marks of any 2 subjects
+
+select avg(rdbms) RDBMS_avg, avg(micro) as MICRO_avg from Stud_marks
+
+12.Display student detail having highest marks in rdbms subject // sub query
+
+13.List student details of the students participated in dance
+
+select p.rollno,s.name,s.div,sem,s.gender,a.act_name from Participant p, Activity a,Stud_master s where p.rollno=s.rollno AND p.activity_id=a.activity_id AND act_name='Dance'
+
+14.List the student detail who have not paid the fees
+
+select s.rollno,s.name,s.div,sem,s.gender from stud_master s , Fees f where f.rollno=s.rollno AND f.day_ofpay IS NULL
+
+15.Drop the column bgp from the stud_master table
+
+alter table Stud_master drop column bgp
+
+16.Display records of students who have received ‘A’ grade in any activity
+
+select p.rollno,s.name,s.div,sem,s.gender,a.act_name,p.perf_grade from Participant p, Activity a,Stud_master s where p.rollno=s.rollno AND p.activity_id=a.activity_id AND  p.perf_grade='A'
+
+17.List out female students from surat who have participated in sport activity
+and dance as well
+
+select p.rollno,s.name,s.div,sem,s.gender,a.act_name from Participant p, Activity a,Stud_master s where p.rollno=s.rollno AND p.activity_id=a.activity_id AND s.city='surat' AND s.gender='female' AND a.act_name='Dance' OR a.act_name='Football'
+
+18.Display total number of boys participated in sports activity
+
+select count(p.rollno) from Participant p, Activity a,Stud_master s where p.rollno=s.rollno AND p.activity_id=a.activity_id AND s.gender='male' AND a.act_name='Football' 
+
+19. List student detail who have secured more than 70 marks in rdbms and
+received ‘A’ grade in Song activity
+
+select p.rollno,s.name,s.div,sem,s.gender,a.act_name,m.rdbms,p.perf_grade from Participant p, Activity a,Stud_master s, Stud_marks m where p.rollno=s.rollno AND p.activity_id=a.activity_id AND m.rollno=s.rollno AND a.act_name='Song' AND p.perf_grade='A' AND m.rdbms>70
+
+20.Display student detail who have received more than 80 marks in ES and
+secured ‘B’ grade in ‘Singing’ activity
+
+select p.rollno,s.name,s.div,sem,s.gender,a.act_name,m.rdbms,p.perf_grade from Participant p, Activity a,Stud_master s, Stud_marks m where p.rollno=s.rollno AND p.activity_id=a.activity_id AND m.rollno=s.rollno AND a.act_name='Singing' AND p.perf_grade='B' AND m.es>80
+
+21.Use alter table command to add few columns in all the tables
+alter table Stud_master add panno number
+alter table Stud_master modify panno number(10)
+alter table Stud_marks add prac_wd number
+alter table Activity add category varchar(20)
+
+22. List the student detail who have submitted the assignment of ‘rdbms’
+subject
+
+select * from Assign_Subm a ,Stud_master s ,Assignment asg where a.assigno=asg.assigno  AND  a.rollno=s.rollno AND sub_status='True' AND subject='rdbms'
+
+23.List total assignment of each subject
+
+select subject, count(assigno) as no_of_assignment from Assignment group by subject
+
+24. List Assignment detail for which assignment status is ‘NotSubmitted’
+
+select *  from Assign_Subm a ,Assignment asg where a.assigno=asg.assigno AND sub_status='False'
+
+25. List students who have not submitted the assignment but participated in
+‘sports’ activity
+
+
+select * from Assign_Subm a ,Stud_master s ,Assignment asg ,Participant p, Activity act where a.assigno=asg.assigno  AND  a.rollno=s.rollno AND p.activity_id=act.activity_id AND p.rollno=s.rollno AND a.sub_status='False' AND act.act_name='Football'
+
+26.List student detail who have issued book of DBMS and secured more
+than 80 marks in RDBMS and participated in dance activity
+
+select s.rollno,s.name,s.div,m.rdbms,a.act_name from Stud_master s,Stud_marks m, Book b,BookIssueReturn bir,Participant p, Activity a WHERE bir.bookid=b.bookid AND s.rollno=bir.rollno AND m.rollno=s.rollno AND p.activity_id=a.activity_id AND p.rollno=s.rollno AND a.act_name='Dance' AND b.bookname='DBMS'AND  bir.status='issue' AND m.rdbms>80
+
+27.Count total number of books issued
+
+select count(bookid) as no_of_books_issued from BookIssueReturn where status='issue''
+
+28.Display student detail who have issued book of more than 500rs and not submitted RDBMS assignment.//subquery

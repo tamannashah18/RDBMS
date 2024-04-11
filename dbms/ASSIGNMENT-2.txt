@@ -1,0 +1,278 @@
+Event Management System
+Assignment 2
+Tamanna Shah
+
+CREATE TABLE QUERY:
+
+CUSTOMER
+
+CREATE TABLE customer(c_id number PRIMARY KEY,
+c_name varchar(20),
+age number,
+phno number(11),
+email varchar(100) )
+
+STAFF
+
+CREATE TABLE staff(s_id number PRIMARY KEY,
+s_name varchar(20),
+field varchar(30),
+experience number,
+phno number(11),
+email varchar(100),
+age number)
+
+PAYMENTS
+
+CREATE TABLE payments(p_id number PRIMARY KEY,
+ c_id number,
+ amt number, 
+date_ofpay date,
+status varchar(3), 
+CONSTRAINT fk_1 FOREIGN KEY(c_id) REFERENCES customer(c_id)ON DELETE CASCADE)
+
+EVENT_TYPE
+
+CREATE TABLE event_type(e_id number PRIMARY KEY, 
+type varchar(20))
+
+EVENT_DETAILS
+
+CREATE TABLE event_details(e_id number,
+c_id number,
+s_id number,
+date_of_event date,
+time varchar(20),
+venue varchar(20),
+budget number,
+CONSTRAINT fk_2 FOREIGN KEY(c_id) REFERENCES customer(c_id)ON DELETE CASCADE,
+CONSTRAINT fk_3 FOREIGN KEY(e_id) REFERENCES event_type ON DELETE CASCADE,
+CONSTRAINT fk_4 FOREIGN KEY(s_id) REFERENCES staff ON DELETE CASCADE,
+PRIMARY KEY(e_id,c_id,s_id))
+
+FACILITY
+
+
+
+CREATE TABLE facility(e_id number,
+c_id number,
+s_id number,
+valet varchar(3),
+decor varchar(3),
+buffet varchar(3),
+transport varchar(3),
+photography varchar(3),
+light_sound varchar(3),
+CONSTRAINT fk_5 FOREIGN KEY(c_id) REFERENCES customer ON DELETE CASCADE,
+CONSTRAINT fk_6 FOREIGN KEY(e_id) REFERENCES event_type ON DELETE CASCADE,
+CONSTRAINT fk_7 FOREIGN KEY(s_id) REFERENCES staff ON DELETE CASCADE ,
+PRIMARY KEY(e_id,c_id,s_id))
+
+
+
+INSERT TABLE QUERY:
+
+CUSTOMER:
+
+	INSERT INTO customer VALUES 
+(1, 'Arya', 30, 9876543210, 'arya@gmail.com')
+	INSERT INTO customer VALUES 
+(2, 'Ravi', 25, 8765432109, 'ravi@hotmail.com')
+	INSERT INTO customer VALUES 
+(3, 'Sonia', 35, 7654321098, 'sonia@yahoo.com')
+	INSERT INTO customer VALUES 
+(4, 'Vikram', 28, 9876543200, 'vikram@gmail.com')
+	INSERT INTO customer VALUES 
+(5, 'Priya', 33, 8765432199, 'priya@gmail.com')
+	INSERT INTO customer VALUES 
+(6, 'Rahul', 29, 7654321088, 'rahul@yahoo.com')
+	INSERT INTO customer VALUES 
+(7, 'Neha', 31, 6543210977, 'neha@yahoo.com')
+	INSERT INTO customer VALUES 
+(8, 'Deepak', 27, 5432109866, 'deepak@hotmail.com');
+
+STAFF:
+	
+	INSERT INTO staff VALUES
+(101, 'Anil', 'Event Planner', 5, 9876543211, 'anil@gmail.com', 28)
+	INSERT INTO staff VALUES
+(102, 'Sumit', 'Decorator', 3, 8765432110, 'sumit@gmail.com', 30)
+	INSERT INTO staff VALUES
+(103, 'Meena', 'Photographer', 7, 7654321099, 'meena@gmail.com', 32)
+	INSERT INTO staff VALUES
+(104, 'Asha', 'Caterer', 4, 9876543201, 'asha@yahoo.com', 35)
+	INSERT INTO staff VALUES
+(105, 'Rajesh', 'Musician', 6, 8765432198, 'rajesh@yahoo.com', 40)
+	INSERT INTO staff VALUES
+(106, 'Sanjay', 'MC', 8, 7654321087, 'sanjay@yahoo.com', 38)
+	INSERT INTO staff VALUES
+(107, 'Pooja', 'Florist', 5, 6543210976, 'pooja@hotmail.com', 32)
+	INSERT INTO staff VALUES
+(108, 'Vijay', 'Event Coordinator', 3, 5432109865, 'vijay@hotmail.com', 29)
+
+PAYMENTS:
+
+INSERT INTO payments VALUES (201, 1, 5000, '01-Mar-2024', 'Yes');
+INSERT INTO payments VALUES (202, 2, 7500, '02-May-2024', 'Yes');
+INSERT INTO payments VALUES (203, 3, 10000, '03-Dec-2024', 'Yes');
+INSERT INTO payments VALUES (204, 4, 8000, '04-Apr-2024', 'Yes');
+INSERT INTO payments VALUES (205, 5, 12000, '05-Jul-2024', 'No');
+INSERT INTO payments VALUES (206, 6, 6000, '06-Feb-2024', 'Yes');
+INSERT INTO payments VALUES (207, 7, 9000, '07-Jan-2024', 'No');
+INSERT INTO payments VALUES (208, 8, 10000, '08-Nov-2024', 'Yes');
+
+
+
+EVENT_TYPE:
+
+INSERT INTO event_type VALUES 
+(301, 'Wedding')
+INSERT INTO event_type VALUES 
+(302, 'Birthday')
+INSERT INTO event_type VALUES 
+(303, 'Party')
+
+
+EVENT_DETAILS:
+
+INSERT INTO event_details VALUES (301, 1, 101, '15-mar-2024', '18:00', 'Royal Palace', 100000)
+INSERT INTO event_details VALUES (302, 2, 102, '20-may-2024', '19:00', 'Gardens Hotel', 150000
+INSERT INTO event_details VALUES (303, 3, 103, '25-jun-2023', '20:00', 'Banquet Hall', 200000)
+INSERT INTO event_details VALUES (301, 4, 104, '15-oct-2024', '17:00', 'Grand Banquet Hall', 150000)
+INSERT INTO event_details VALUES (302, 3, 102, '26-apr-2024', '20:00', 'Banquet Hall', 200000)
+INSERT INTO event_details VALUES (301, 2, 101, '15-mar-2023', '19:00', 'Gardens Hotel', 150000)
+INSERT INTO event_details VALUES (302, 8, 108, '11-may-2024', '21:00', 'Rooftop Restaurant', 180000)
+INSERT INTO event_details VALUES (303, 6, 106, '25-sep-2024', '18:00', 'Riverside Lawn', 100000)
+INSERT INTO event_details VALUES (301, 7, 107, '30-oct-2023', '20:00', 'Luxury Hotel', 250000)
+
+
+FACILITY:
+
+INSERT INTO facility VALUES 
+(301, 1, 101, 'No', 'Yes', 'Yes', 'No', 'Yes', 'Yes')
+INSERT INTO facility VALUES 
+(302, 2, 102, 'Yes', 'Yes', 'Yes', 'Yes', 'No', 'No')
+INSERT INTO facility VALUES 
+(303, 3, 103, 'No', 'Yes', 'Yes', 'No', 'Yes', 'Yes')
+INSERT INTO facility VALUES 
+(301, 4, 104, 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'Yes')
+INSERT INTO facility VALUES 
+(302, 5, 105, 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes')
+INSERT INTO facility VALUES 
+(303, 6, 106, 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No')
+INSERT INTO facility VALUES 
+(301, 7, 107, 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes')
+INSERT INTO facility VALUES 
+(302, 8, 108, 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'Yes')
+
+
+QUERIES:
+
+1 Count the total number of events
+2 List staff members with email address ending in ”@gmail.com”
+3 Calculate the average age of customers.
+4 Display customer details where transport facility is not available
+5 Display customer details whose payment is pending
+6 Display the details of staff handling birthday party
+7 Display to event held on 26-apr-2024
+8 Display staff details in descending order according to their experience
+9 Display event details where the facilities of valet and transport is not available.--XX–
+10 Display details of staff whose name starts with ‘A’
+11 List customers and their payment details
+12 Count total number of events after july
+13 Find events with budget more than 150000 and valet and light_sound service is available–XX–
+14 Display the details of wedding event that is held at a Royal palace–XX–
+15 Display the details of customers who has paid at  '2024-12-03'--XX–
+16 Display staff details who have more than 1 event
+17 Display events held at “Garden Hotel”
+18 List staff members who have experience greater than 5 years and their contact information
+19 List events along with the staff member responsible for organising them
+20 Count Total number of events organised by male and female staff members. 
+
+
+
+Answers:
+
+1)SELECT COUNT(e_id) AS total_events FROM event_details
+
+2)SELECT * FROM staff WHERE email LIKE '%@gmail.com'
+
+3)SELECT AVG(age) AS avg_age FROM customer
+
+4)SELECT c.*
+FROM customer c
+JOIN facility f ON c.c_id = f.c_id
+WHERE f.transport = 'No';
+
+5)SELECT c.*
+FROM customer c
+JOIN payments p ON c.c_id = p.c_id
+WHERE p.status = 'No';
+
+6)SELECT s.*
+FROM staff s
+JOIN event_details ed ON s.s_id = ed.s_id
+JOIN event_type et ON ed.e_id = et.e_id
+WHERE et.type = 'Birthday';
+
+7)SELECT * FROM event_details WHERE date_of_event = '26-apr-2024'
+
+8)SELECT * FROM staff ORDER BY experience DESC;
+
+9)SELECT ed.*
+FROM event_details ed
+JOIN facility f ON ed.e_id = f.e_id AND ed.c_id = f.c_id AND ed.s_id = f.s_id
+WHERE f.valet = 'No' AND f.transport = 'No';
+
+10)SELECT * FROM staff WHERE s_name LIKE 'A%';
+
+11)SELECT c.c_name, p.amt, p.date_ofpay, p.status
+FROM customer c
+JOIN payments p ON c.c_id = p.c_id;
+
+12)SELECT COUNT(*) AS total_events_after_july
+FROM event_details
+WHERE date_of_event > '01-jul-2024';
+
+13)SELECT ed.*
+FROM event_details ed
+JOIN facility f ON ed.e_id = f.e_id AND ed.c_id = f.c_id AND ed.s_id = f.s_id
+WHERE ed.budget > 150000 AND f.valet = 'Yes' AND f.light_sound = 'Yes';
+
+14)SELECT ed.*
+FROM event_details ed
+JOIN event_type et ON ed.e_id = et.e_id
+WHERE et.type = 'Wedding' AND ed.venue = 'Royal Palace';
+
+15)SELECT c.*
+FROM customer c
+JOIN payments p ON c.c_id = p.c_id
+WHERE p.date_ofpay = '03-dec-2024';
+
+16)select * from staff where s_id= any(select s_id from event_details group by s_id having count(e_id)>1)
+
+17)SELECT *
+FROM event_details
+WHERE venue = 'Gardens Hotel';
+
+18)SELECT s_name, phno, email
+FROM staff
+WHERE experience > 5;
+
+19)SELECT e.e_id, type, s_name
+FROM event_type
+JOIN event_details e ON event_type.e_id = e.e_id
+JOIN staff ON e.s_id = staff.s_id;
+
+20)SELECT field, COUNT(*) AS total_events
+FROM staff
+JOIN event_details ON staff.s_id = event_details.s_id
+GROUP BY field;
+
+
+
+
+
+
+ 
+
